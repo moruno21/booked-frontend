@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  frontend:
+    container_name: nextjs_frontend
+    build: .
+    command: npm run dev
+    ports:
+      - '3500:3500'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - booked-network
+networks:
+  booked-network:
+    external:
+      name: booked-network
