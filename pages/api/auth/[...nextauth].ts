@@ -19,7 +19,8 @@ const options: NextAuthOptions = {
       // Persist the accessToken to the token right after signin
       if (account) {
         // We need to generate the token, because account.access_token is the github token (useless for our case)
-        const encodedToken = jwt.sign(token, 'supersecret', {
+        const secret = process.env.JWT_SECRET || 'changeme';
+        const encodedToken = jwt.sign(token, secret, {
           expiresIn: '30d',
           algorithm: 'HS512',
         });
