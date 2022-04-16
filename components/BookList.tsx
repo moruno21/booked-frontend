@@ -3,13 +3,20 @@ import Book from './Book';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 const BookList = () => {
   const [books, setBooks] = useState<IBook[]>();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const getBooks = async () => {
-      const res = await fetch(`http://localhost:3500/books`);
+      const res = await fetch(`http://localhost:3500/books`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      });
       const data = await res.json();
       setBooks(data);
     };
