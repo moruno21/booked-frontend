@@ -6,8 +6,28 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import IBook from '../types/book';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import ILoan from '../types/loan';
 
 const Book = ({ book }: { book: IBook }) => {
+  const [currentBookLoan, setCurrentBookLoan] = useState<ILoan>();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const getBookLoans = async () => {
+      const res = await fetch(`http://localhost:3500/loans/${book._id}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      });
+      const data = await res.json();
+      if (Object.keys(data).length !== 0) setCurrentBookLoan(data);
+    };
+    getBookLoans();
+  }, []);
+
   return (
     <Grid item xs={2} sm={4} md={4}>
       <Card sx={{ maxWidth: 345 }}>
@@ -26,7 +46,11 @@ const Book = ({ book }: { book: IBook }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">¡Lo quiero!</Button>
+          {currentBookLoan ? (
+            <Typography variant="body2">Libro prestado</Typography>
+          ) : (
+            <Button size="small">¡Lo quiero!</Button>
+          )}
         </CardActions>
       </Card>
     </Grid>
