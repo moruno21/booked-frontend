@@ -2,8 +2,9 @@ import { styled } from '@mui/material/styles';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import ILoan from '../types/loan';
+import { Button } from '@mui/material';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   fontSize: 14,
 }));
 
@@ -28,9 +29,13 @@ const Loan = ({ loan }: { loan: ILoan }) => {
       </StyledTableCell>
       <StyledTableCell>{`${initialDate.getDate()}/${initialDate.getMonth()}/${initialDate.getFullYear()}`}</StyledTableCell>
       <StyledTableCell>
-        {loan.finalDate
-          ? `${finalDate.getDate()}/${finalDate.getMonth()}/${finalDate.getFullYear()}`
-          : 'Devolver'}
+        {loan.finalDate ? (
+          `${finalDate.getDate()}/${finalDate.getMonth()}/${finalDate.getFullYear()}`
+        ) : (
+          <Button color="warning" variant="contained">
+            Devolver
+          </Button>
+        )}
       </StyledTableCell>
     </StyledTableRow>
   );
