@@ -27,7 +27,7 @@ const LoanList = () => {
 
   useEffect(() => {
     const getLoans = async () => {
-      const res = await fetch(`http://localhost:3500/loans/${userEmail}`, {
+      const res = await fetch(`http://localhost:3500/myloans/${userEmail}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${session?.accessToken} `,
