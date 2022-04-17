@@ -18,14 +18,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Loan = ({ loan }: { loan: ILoan }) => {
+  const initialDate = new Date(loan.initialDate);
+  const finalDate = new Date(loan.finalDate);
+
   return (
     <StyledTableRow key={loan._id}>
       <StyledTableCell component="th" scope="loan">
         {loan.bookId}
       </StyledTableCell>
-      <StyledTableCell>{loan.userId}</StyledTableCell>
-      <StyledTableCell>{loan.initialDate}</StyledTableCell>
-      <StyledTableCell>{loan.finalDate}</StyledTableCell>
+      <StyledTableCell>{`${initialDate.getDate()}/${initialDate.getMonth()}/${initialDate.getFullYear()}`}</StyledTableCell>
+      <StyledTableCell>
+        {loan.finalDate
+          ? `${finalDate.getDate()}/${finalDate.getMonth()}/${finalDate.getFullYear()}`
+          : 'Devolver'}
+      </StyledTableCell>
     </StyledTableRow>
   );
 };

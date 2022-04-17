@@ -23,19 +23,23 @@ const LoanList = () => {
   const [loans, setLoans] = useState<ILoan[]>();
   const { data: session } = useSession();
 
+  const userEmail = session?.user?.email;
+
   useEffect(() => {
     const getLoans = async () => {
-      const res = await fetch(`http://localhost:3500/loans`, {
+      const res = await fetch(`http://localhost:3500/loans/${userEmail}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${session?.accessToken} `,
         },
       });
-      const data = await res.json();
+      const data: ILoan[] = await res.json();
       setLoans(data);
     };
     getLoans();
   }, []);
+
+  if (loans?.length === 0) return <h1>No has leído ningún libro todavía. ¿A qué esperas?</h1>;
 
   return (
     <Box sx={{ flexGrow: 1, m: 8 }}>
@@ -45,7 +49,6 @@ const LoanList = () => {
             <TableHead>
               <TableRow>
                 <StyledTableCell>Libro</StyledTableCell>
-                <StyledTableCell>Sacado por</StyledTableCell>
                 <StyledTableCell>Fecha de inicio</StyledTableCell>
                 <StyledTableCell>Fecha de fin</StyledTableCell>
               </TableRow>

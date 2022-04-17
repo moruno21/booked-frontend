@@ -24,14 +24,10 @@ const Navbar = () => {
 
   const pages = [
     { name: 'Libros', path: '/' },
-    { name: 'Préstamos', path: '/loans' },
+    { name: 'Mis préstamos', path: '/loans' },
   ];
 
-  const settings = [
-    { name: 'Perfil', action: () => '' },
-    { name: 'Mis préstamos', action: () => '' },
-    { name: 'Cerrar sesión', action: () => signOut() },
-  ];
+  const settings = [{ name: 'Cerrar sesión', action: () => signOut() }];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
