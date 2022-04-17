@@ -2,13 +2,18 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IBook from '../types/book';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import ILoan from '../types/loan';
+import { TextField } from '@mui/material';
+import { fontWeight } from '@mui/system';
 
 const Book = ({ book }: { book: IBook }) => {
   const [currentBookLoan, setCurrentBookLoan] = useState<ILoan>();
@@ -31,12 +36,7 @@ const Book = ({ book }: { book: IBook }) => {
   return (
     <Grid item xs={2} sm={4} md={4}>
       <Card sx={{ maxWidth: 345 }}>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt={book.title}
-        />
+        <CardMedia component="img" image={`/books/${book.image}`} alt={book.title} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {book.title}
@@ -45,13 +45,29 @@ const Book = ({ book }: { book: IBook }) => {
             {book.description}
           </Typography>
         </CardContent>
-        <CardActions>
-          {currentBookLoan ? (
-            <Typography variant="body2">Libro prestado</Typography>
-          ) : (
-            <Button size="small">¡Lo quiero!</Button>
-          )}
-        </CardActions>
+        {currentBookLoan ? (
+          <CardActions sx={{ justifyContent: 'center' }}>
+            <Typography sx={{ fontWeight: 'light' }}>Libro prestado</Typography>
+          </CardActions>
+        ) : (
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography sx={{ fontWeight: 'bold' }}>¡Lo quiero!</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <TextField
+                id="outlined-basic"
+                label="Código de reserva"
+                variant="outlined"
+                color="warning"
+              />
+            </AccordionDetails>
+          </Accordion>
+        )}
       </Card>
     </Grid>
   );
